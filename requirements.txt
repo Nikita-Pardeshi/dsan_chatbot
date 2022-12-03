@@ -22,9 +22,7 @@ processor==0.10.0
 protobuf==4.21.10
 pytz==2022.6
 regex==2022.10.31
-six==1.16.0
-tensorboard==1.8.0
-tensorflow 
+six==1.16.0 
 termcolor==2.1.1
 tqdm==4.64.1
 Twiggy==0.4.7
