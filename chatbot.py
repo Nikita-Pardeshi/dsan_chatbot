@@ -46,7 +46,7 @@ print (len(classes), "classes", classes)
 # words = all words, vocabulary
 print (len(words), "unique lemmatized words", words)
 
-pickle.dump(words,open('model_outpt/words.pkl','wb'))
+pickle.dump(words,open('model_output/words.pkl','wb'))
 pickle.dump(classes,open('model_output/classes.pkl','wb'))
 
 
