@@ -10,13 +10,16 @@ from keras.optimizers import SGD
 import random
 #import nltk
 #nltk.download('omw-1.4')
+# nltk.download('punkt')
+# nltk.download('wordnet')
+# nltk.download('omw-1.4')
 
 
 words=[]
 classes = []
 documents = []
 ignore_words = ['?', '!']
-data_file = open('intents.json').read()
+data_file = open('data/intents.json').read()
 intents = json.loads(data_file)
 
 for intent in intents['intents']:
@@ -42,8 +45,9 @@ print (len(documents), "documents")
 print (len(classes), "classes", classes)
 # words = all words, vocabulary
 print (len(words), "unique lemmatized words", words)
-pickle.dump(words,open('words.pkl','wb'))
-pickle.dump(classes,open('classes.pkl','wb'))
+
+pickle.dump(words,open('model_outpt/words.pkl','wb'))
+pickle.dump(classes,open('model_output/classes.pkl','wb'))
 
 
 
@@ -76,9 +80,6 @@ train_y = list(training[:,1])
 print("Training data created")
 
 
-
-
-
 # Create model - 3 layers. First layer 128 neurons, second layer 64 neurons and 3rd output layer contains number of neurons
 # equal to number of intents to predict output intent with softmax
 model = Sequential()
@@ -92,7 +93,7 @@ sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
 #fitting and saving the model 
 hist = model.fit(np.array(train_x), np.array(train_y), epochs=200, batch_size=5, verbose=1)
-model.save('chatbot_model.h5', hist)
+model.save('model_output/chatbot_model.h5', hist)
 print("model created")
 
 

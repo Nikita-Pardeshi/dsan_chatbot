@@ -12,10 +12,10 @@ lemmatizer = WordNetLemmatizer()
 
 
 # chat initialization
-model = load_model("chatbot_model.h5")
+model = load_model("outputs/chatbot_model.h5")
 intents = json.loads(open("intents.json").read())
-words = pickle.load(open("words.pkl", "rb"))
-classes = pickle.load(open("classes.pkl", "rb"))
+words = pickle.load(open("outputs/words.pkl", "rb"))
+classes = pickle.load(open("outputs/classes.pkl", "rb"))
 
 app = Flask(__name__)
 # run_with_ngrok(app) 
