@@ -10,11 +10,11 @@
 <body>
     <div class="row">
         <div class="col-md-10 mr-auto ml-auto">
-    <h1>Dentrice AI ChatBot</h1>
+    <h1>DSAN ChatBot</h1>
     <form>
         <div id="chatbox">
             <div class="col-md-8 ml-auto mr-auto">
-                <p class="botText"><span>Hi! I'm Your bot.</span></p>
+                <p class="botText"><span>Bot: Hi! I'm Your bot.</span></p>
             </div>
         </div>
         <div id="userInput" class="row">
@@ -31,7 +31,7 @@
     $(document).ready(function() {
         $("form").on("submit", function(event) {
             var rawText = $("#text").val();
-            var userHtml = '<p class="userText"><span>' + rawText + "</span></p>";
+            var userHtml = '<h4><p class="userText">You: <span>' + rawText + "</span></p></h4>";
             $("#text").val("");
             $("#chatbox").append(userHtml);
             document.getElementById("userInput").scrollIntoView({
@@ -45,7 +45,7 @@
                 type: "POST",
                 url: "/get",
             }).done(function(data) {
-                var botHtml = '<p class="botText"><span>' + data + "</span></p>";
+                var botHtml = '<p class="botText" style="background-color:powderblue;">Bot: <span>' + data + "</span></p>";
                 $("#chatbox").append($.parseHTML(botHtml));
                 document.getElementById("userInput").scrollIntoView({
                     block: "start",

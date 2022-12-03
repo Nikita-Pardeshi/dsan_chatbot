@@ -22,7 +22,6 @@ executing==0.8.3
 feature-engine==1.4.1
 Flask==2.2.2
 Flask-Compress==1.12
-flask-ngrok==0.0.25
 fonttools==4.34.4
 gast==0.5.3
 gevent==21.12.0
@@ -96,8 +95,6 @@ slicer==0.0.7
 stack-data==0.3.0
 statsmodels==0.13.2
 tenacity==8.0.1
-tensorboard==1.12.2
-tensorflow @ https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.12.0-py3-none-any.whl
 termcolor==1.1.0
 threadpoolctl==3.1.0
 tifffile==2022.5.4

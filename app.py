@@ -4,7 +4,6 @@ import numpy as np
 import pickle
 import json
 from flask import Flask, render_template, request
-from flask_ngrok import run_with_ngrok
 import nltk
 from keras.models import load_model
 from nltk.stem import WordNetLemmatizer
@@ -12,10 +11,10 @@ lemmatizer = WordNetLemmatizer()
 
 
 # chat initialization
-model = load_model("outputs/chatbot_model.h5")
-intents = json.loads(open("intents.json").read())
-words = pickle.load(open("outputs/words.pkl", "rb"))
-classes = pickle.load(open("outputs/classes.pkl", "rb"))
+model = load_model("model_output/chatbot_model.h5")
+intents = json.loads(open("data/intents.json").read())
+words = pickle.load(open("model_output/words.pkl", "rb"))
+classes = pickle.load(open("model_output/classes.pkl", "rb"))
 
 app = Flask(__name__)
 # run_with_ngrok(app) 
@@ -27,20 +26,21 @@ def home():
 
 @app.route("/get", methods=["POST"])
 def chatbot_response():
-    msg = request.form["msg"]
-    if msg.startswith('my name is'):
-        name = msg[11:]
-        ints = predict_class(msg, model)
-        res1 = getResponse(ints, intents)
-        res =res1.replace("{n}",name)
-    elif msg.startswith('hi my name is'):
-        name = msg[14:]
-        ints = predict_class(msg, model)
-        res1 = getResponse(ints, intents)
-        res =res1.replace("{n}",name)
-    else:
-        ints = predict_class(msg, model)
-        res = getResponse(ints, intents)
+    msg = request.form["msg"].lower()
+    print(msg)
+    # if msg.startswith('hi'):
+    #     name = msg[2:]
+    #     ints = predict_class(msg, model)
+    #     res1 = getResponse(ints, intents)
+    #     res =res1.replace("{n}",name)
+    # elif msg.startswith('hi my name is'):
+    #     name = msg[14:]
+    #     ints = predict_class(msg, model)
+    #     res1 = getResponse(ints, intents)
+    #     res =res1.replace("{n}",name)
+    # else:
+    ints = predict_class(msg, model)
+    res = getResponse(ints, intents)
     return res
 
 
@@ -71,25 +71,41 @@ def predict_class(sentence, model):
     # filter out predictions below a threshold
     p = bow(sentence, words, show_details=False)
     res = model.predict(np.array([p]))[0]
-    ERROR_THRESHOLD = 0.25
+    print(res)
+
+    ERROR_THRESHOLD = 0.7
+
     results = [[i, r] for i, r in enumerate(res) if r > ERROR_THRESHOLD]
-    # sort by strength of probability
+    #sort by strength of probability
     results.sort(key=lambda x: x[1], reverse=True)
+
+    confidence_probability=0.95
     return_list = []
-    for r in results:
-        return_list.append({"intent": classes[r[0]], "probability": str(r[1])})
+
+    if len(results) == 0:
+        return_list.append({"intent": 'failed', "probability": '1'})
+    elif results[0][1] >=  confidence_probability:
+        return_list.append({"intent": classes[results[0][0]], "probability": str(results[0][1])})
+    else: 
+        return_list.append({"intent": 'failed', "probability": '1'})
+   
+    print(return_list)
     return return_list
 
 
 def getResponse(ints, intents_json):
     tag = ints[0]["intent"]
+    print(tag)
     list_of_intents = intents_json["intents"]
+
     for i in list_of_intents:
         if i["tag"] == tag:
             result = random.choice(i["responses"])
             break
+        else:
+            result= "Sorry, I don't understand that. Please rephrase/ask another question or send an email to gradanalytics@georgetown.edu"
     return result
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(port='0000')
