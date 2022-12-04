@@ -1,0 +1,122 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}" />
+        <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css.css')}}" /> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    </head>
+<style>
+p {
+  padding: 15px;
+  margin:0px;
+}
+
+h3, td{
+  padding: 15px;
+  margin: 0px;
+}
+
+.zoom {
+  padding:1px;
+  transition: transform .10s; /* Animation */
+  width: 480px;
+  height: 400px;
+  margin: 0 auto;
+}
+
+.zoom:hover {
+  transform: scale(1.5); /* (150% zoom -if the zoom is too large, it will go outside of the viewport) */
+}
+
+.centered{margin-left: 50%;
+margin-right: 50%;
+margin: 0px, auto, 0px, auto;} /*center the third image */
+
+/*fade in effects */
+
+body {
+            animation: fadeInAnimation ease 2s;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+        }
+        @keyframes fadeInAnimation {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }            
+
+</style>
+
+
+<link rel="stylesheet" href="style.css">
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    
+    <!-- GU DSA banner and top navigation part --> 
+    <a href="https://analytics.georgetown.edu/">
+        <img src="https://ngpardeshi.georgetown.domains/ANLY 501 IMAGES/DSA.jpg" style="width:600px;height:200px;">
+    </a>
+    
+    <img src='https://ngpardeshi.georgetown.domains/ANLY 501 IMAGES/GU_Background.png' style="width:700px;height:200px;" align="right">
+
+    <p style="text-align:justify">This is not an official website. Dummy website for demonstration purposes only for ANLY-580 project</p>
+
+
+    <div class="row" style="width:800px; margin:0 auto;">
+        <div class="col-md-10 mr-auto ml-auto">
+        <form>
+            <div id="chatbox">
+                <div class="col-md-8 ml-auto mr-auto">
+                    <p class="botText" style="background-color:powderblue;"><span>Bot: Hi! I'm Your bot.</span></p>
+                </div>
+            </div>
+            <div id="userInput" class="row" style="width:800px; margin:0 auto;">
+                <div class="col-md-10">
+                    <input id="text" type="text" name="msg" placeholder="Message" class="form-control">
+                    <button type="submit" id="send" class="btn btn-warning">Send</button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $("form").on("submit", function(event) {
+                var rawText = $("#text").val();
+                var userHtml = '<h4><p class="userText">You: <span>' + rawText + "</span></p></h4>";
+                $("#text").val("");
+                $("#chatbox").append(userHtml);
+                document.getElementById("userInput").scrollIntoView({
+                    block: "start",
+                    behavior: "smooth",
+                });
+                $.ajax({
+                    data: {
+                        msg: rawText,
+                    },
+                    type: "POST",
+                    url: "/get",
+                }).done(function(data) {
+                    var botHtml = '<p class="botText" style="background-color:powderblue;">Bot: <span>' + data + "</span></p>";
+                    $("#chatbox").append($.parseHTML(botHtml));
+                    document.getElementById("userInput").scrollIntoView({
+                        block: "start",
+                        behavior: "smooth",
+                    });
+                });
+                event.preventDefault();
+            });
+        });
+    </script>
+</body>
+
+</html>
