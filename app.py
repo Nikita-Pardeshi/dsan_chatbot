@@ -8,6 +8,9 @@ import nltk
 from keras.models import load_model
 from nltk.stem import WordNetLemmatizer
 lemmatizer = WordNetLemmatizer()
+import random
+
+random.seed(10)
 
 
 # chat initialization
@@ -21,24 +24,12 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("index_v2.html")
 
 
 @app.route("/get", methods=["POST"])
 def chatbot_response():
     msg = request.form["msg"].lower()
-    print(msg)
-    # if msg.startswith('hi'):
-    #     name = msg[2:]
-    #     ints = predict_class(msg, model)
-    #     res1 = getResponse(ints, intents)
-    #     res =res1.replace("{n}",name)
-    # elif msg.startswith('hi my name is'):
-    #     name = msg[14:]
-    #     ints = predict_class(msg, model)
-    #     res1 = getResponse(ints, intents)
-    #     res =res1.replace("{n}",name)
-    # else:
     ints = predict_class(msg, model)
     res = getResponse(ints, intents)
     return res
@@ -71,15 +62,15 @@ def predict_class(sentence, model):
     # filter out predictions below a threshold
     p = bow(sentence, words, show_details=False)
     res = model.predict(np.array([p]))[0]
-    print(res)
-
-    ERROR_THRESHOLD = 0.7
+   
+    ERROR_THRESHOLD = 0.5
 
     results = [[i, r] for i, r in enumerate(res) if r > ERROR_THRESHOLD]
     #sort by strength of probability
     results.sort(key=lambda x: x[1], reverse=True)
+    print(results)
 
-    confidence_probability=0.95
+    confidence_probability=0.7
     return_list = []
 
     if len(results) == 0:
