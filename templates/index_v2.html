@@ -59,7 +59,7 @@ margin: 0px, auto, 0px, auto;} /*center the third image */
 </head>
 
 <body>
-    <div class="navbar" style="overflow: visible;"></div>
+    <div class="navbar" style="overflow: hidden;"></div>
         <!-- GU DSA banner and top navigation part --> 
         <a href="https://analytics.georgetown.edu/">
             <img src="https://ngpardeshi.georgetown.domains/ANLY 501 IMAGES/DSA.jpg" style="width:600px;height:200px;">
@@ -67,7 +67,7 @@ margin: 0px, auto, 0px, auto;} /*center the third image */
         
         <img src='https://ngpardeshi.georgetown.domains/ANLY 501 IMAGES/GU_Background.png' style="width:700px;height:200px;align=right">
 
-        <p style="text-align:justify">This is not an official website. Dummy website for demonstration purposes only for ANLY-580 project</p>
+        <p style="text-align:justify">This is not an official website. Dummy website for demonstration purposes only for ANLY-580 project</p>    
     </div>
 
     
@@ -76,12 +76,12 @@ margin: 0px, auto, 0px, auto;} /*center the third image */
         <form>
             <div id="chatbox" class="rcorners2" >
                 <div class="row" >
-                    <p class="row" style="background-color:lightgray; width:750px; margin:0 auto; padding-top: 10px">Hi! I'm your DSAN advisor and I'm here to help you.<br></p>
+                    <b><p class="row" style="background-color:lightgray; width:750px; margin:0 auto; padding-top: 10px">Hi! I'm your DSAN advisor and I'm here to help you.<br></p></b>
                 </div>
             </div>
             <div id="userInput" class="row" style="width:800px; margin:20 auto;">
                 <div class="row" >
-                    <input id="text" type="text" name="msg" placeholder="Message" class="form-control" style="width:750px; margin:20 auto;">
+                    <input id="text" type="text" name="msg" placeholder="Message" class="form-control" style="width:800px; margin:0 auto;">
                     <button type="submit" id="send" class="btn btn-warning" style="background-color: limegreen;">Send</button>
                 </div>
             </div>
@@ -90,9 +90,11 @@ margin: 0px, auto, 0px, auto;} /*center the third image */
     </div>
 
     <script>
+        
         $(document).ready(function() {
             $("form").on("submit", function(event) {
                 var rawText = $("#text").val();
+
                 var userHtml = '<p class="userText" style="font-size:14px">You: <span>' + rawText + "</span></p>";
                 $("#text").val("");
                 $("#chatbox").append(userHtml);
@@ -107,7 +109,28 @@ margin: 0px, auto, 0px, auto;} /*center the third image */
                     type: "POST",
                     url: "/get",
                 }).done(function(data) {
-                    var botHtml = '<p class="botText" style="background-color:lightgray;">DSAN Advisor: <span>' + data + "</span></p>";
+
+                        function linkify(inputText) {
+                        var replacedText, replacePattern1, replacePattern2, replacePattern3;
+
+                        //URLs starting with http://, https://, or ftp://
+                        replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+                        replacedText = inputText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+
+                        //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+                        replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+                        replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
+
+                        //Change email addresses to mailto:: links.
+                        replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+                        replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
+
+                        return replacedText;
+                    }
+
+                    var finalAns= linkify(data);
+                    
+                    var botHtml = '<b><p class="botText" style="background-color:lightgray;">DSAN Advisor: <span>' + finalAns + "</span></p></b>";
                     $("#chatbox").append($.parseHTML(botHtml));
                     document.getElementById("userInput").scrollIntoView({
                         block: "start",
