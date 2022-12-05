@@ -22,6 +22,21 @@ h3, td{
   height: 400px;
   margin: 0 auto;
 }
+.rcorners2 {
+  border-radius: 25px;
+  border: 1px solid lightslategray;
+  padding: 20px;
+  width: 800px;
+  height: auto;
+}
+
+.navbar {
+  overflow: hidden;
+  background-color: none;
+  position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%; /* Full width */
+}
 
 .zoom:hover {
   transform: scale(1.5); /* (150% zoom -if the zoom is too large, it will go outside of the viewport) */
@@ -31,21 +46,6 @@ h3, td{
 margin-right: 50%;
 margin: 0px, auto, 0px, auto;} /*center the third image */
 
-/*fade in effects */
-
-body {
-            animation: fadeInAnimation ease 2s;
-            animation-iteration-count: 1;
-            animation-fill-mode: forwards;
-        }
-        @keyframes fadeInAnimation {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }            
 
 </style>
 
@@ -59,29 +59,30 @@ body {
 </head>
 
 <body>
+    <div class="navbar"></div>
+        <!-- GU DSA banner and top navigation part --> 
+        <a href="https://analytics.georgetown.edu/">
+            <img src="https://ngpardeshi.georgetown.domains/ANLY 501 IMAGES/DSA.jpg" style="width:600px;height:200px;">
+        </a>
+        
+        <img src='https://ngpardeshi.georgetown.domains/ANLY 501 IMAGES/GU_Background.png' style="width:700px;height:200px;align=right">
+
+        <p style="text-align:justify">This is not an official website. Dummy website for demonstration purposes only for ANLY-580 project</p>
+    </div>
+
     
-    <!-- GU DSA banner and top navigation part --> 
-    <a href="https://analytics.georgetown.edu/">
-        <img src="https://ngpardeshi.georgetown.domains/ANLY 501 IMAGES/DSA.jpg" style="width:600px;height:200px;">
-    </a>
-    
-    <img src='https://ngpardeshi.georgetown.domains/ANLY 501 IMAGES/GU_Background.png' style="width:700px;height:200px;" align="right">
-
-    <p style="text-align:justify">This is not an official website. Dummy website for demonstration purposes only for ANLY-580 project</p>
-
-
-    <div class="row" style="width:800px; margin:0 auto;">
-        <div class="col-md-10 mr-auto ml-auto">
+    <div class="row" style="width:800px; margin:0 auto; ">
+        <div class="col-md-10 mr-auto ml-auto" >
         <form>
-            <div id="chatbox">
-                <div class="col-md-8 ml-auto mr-auto">
-                    <p class="botText" style="background-color:powderblue;"><span>Bot: Hi! I'm Your bot.<br></span></p>
+            <div id="chatbox" class="rcorners2" >
+                <div class="row" >
+                    <p class="row" style="background-color:lightgray; width:750px; margin:0 auto; padding-top: 10px">Hi! I'm your DSAN advisor and I'm here to help you.<br></p>
                 </div>
             </div>
-            <div id="userInput" class="row" style="width:800px; margin:0 auto;">
-                <div class="col-md-10">
-                    <input id="text" type="text" name="msg" placeholder="Message" class="form-control">
-                    <button type="submit" id="send" class="btn btn-warning">Send</button>
+            <div id="userInput" class="row" style="width:500px; margin:0 auto;">
+                <div class="row" >
+                    <input id="text" type="text" name="msg" placeholder="Message" class="form-control" style="width:500px; margin:0 auto;">
+                    <button type="submit" id="send" class="btn btn-warning" style="background-color: limegreen;">Send</button>
                 </div>
             </div>
         </form>
@@ -92,7 +93,7 @@ body {
         $(document).ready(function() {
             $("form").on("submit", function(event) {
                 var rawText = $("#text").val();
-                var userHtml = '<h4><p class="userText">You: <span>' + rawText + "</span></p></h4>";
+                var userHtml = '<p class="userText" style="font-size:14px">You: <span>' + rawText + "</span></p>";
                 $("#text").val("");
                 $("#chatbox").append(userHtml);
                 document.getElementById("userInput").scrollIntoView({
@@ -106,7 +107,7 @@ body {
                     type: "POST",
                     url: "/get",
                 }).done(function(data) {
-                    var botHtml = '<p class="botText" style="background-color:powderblue;">Bot: <span>' + data + "</span></p>";
+                    var botHtml = '<h4><p class="botText" style="background-color:lightgray;">Bot: <span>' + data + "</span></p></h4>";
                     $("#chatbox").append($.parseHTML(botHtml));
                     document.getElementById("userInput").scrollIntoView({
                         block: "start",
