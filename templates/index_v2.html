@@ -79,9 +79,9 @@ margin: 0px, auto, 0px, auto;} /*center the third image */
                     <p class="row" style="background-color:lightgray; width:750px; margin:0 auto; padding-top: 10px">Hi! I'm your DSAN advisor and I'm here to help you.<br></p>
                 </div>
             </div>
-            <div id="userInput" class="row" style="width:500px; margin:0 auto;">
+            <div id="userInput" class="row" style="width:800px; margin:20 auto;">
                 <div class="row" >
-                    <input id="text" type="text" name="msg" placeholder="Message" class="form-control" style="width:500px; margin:0 auto;">
+                    <input id="text" type="text" name="msg" placeholder="Message" class="form-control" style="width:750px; margin:20 auto;">
                     <button type="submit" id="send" class="btn btn-warning" style="background-color: limegreen;">Send</button>
                 </div>
             </div>
@@ -107,7 +107,7 @@ margin: 0px, auto, 0px, auto;} /*center the third image */
                     type: "POST",
                     url: "/get",
                 }).done(function(data) {
-                    var botHtml = '<h4><p class="botText" style="background-color:lightgray;">Bot: <span>' + data + "</span></p></h4>";
+                    var botHtml = '<p class="botText" style="background-color:lightgray;">DSAN Advisor: <span>' + data + "</span></p>";
                     $("#chatbox").append($.parseHTML(botHtml));
                     document.getElementById("userInput").scrollIntoView({
                         block: "start",
