@@ -8,11 +8,14 @@ from keras.models import Sequential
 from keras.layers import Dense, Activation, Dropout
 from keras.optimizers import SGD
 import random
+random.seed(2022)
+
 #import nltk
 #nltk.download('omw-1.4')
 # nltk.download('punkt')
 # nltk.download('wordnet')
 # nltk.download('omw-1.4')
+
 
 
 words=[]
