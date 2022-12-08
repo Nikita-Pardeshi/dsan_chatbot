@@ -10,7 +10,7 @@ from nltk.stem import WordNetLemmatizer
 lemmatizer = WordNetLemmatizer()
 import random
 
-random.seed(10)
+random.seed(2022)
 
 
 # chat initialization
@@ -30,6 +30,7 @@ def home():
 @app.route("/get", methods=["POST"])
 def chatbot_response():
     msg = request.form["msg"].lower()
+    print(msg)
     ints = predict_class(msg, model)
     res = getResponse(ints, intents)
     return res
@@ -69,8 +70,9 @@ def predict_class(sentence, model):
     #sort by strength of probability
     results.sort(key=lambda x: x[1], reverse=True)
     print(results)
+    
 
-    confidence_probability=0.7
+    confidence_probability=0.6
     return_list = []
 
     if len(results) == 0:
@@ -87,6 +89,7 @@ def predict_class(sentence, model):
 def getResponse(ints, intents_json):
     tag = ints[0]["intent"]
     print(tag)
+    
     list_of_intents = intents_json["intents"]
 
     for i in list_of_intents:
@@ -95,6 +98,10 @@ def getResponse(ints, intents_json):
             break
         else:
             result= "Sorry, I don't understand that. Please rephrase/ask another question or send an email to gradanalytics@georgetown.edu"
+        
+    print("Answer: ", result)
+    print("-----------------------------------------------------------------------------------------------------")
+    print("\n")
     return result
 
 
