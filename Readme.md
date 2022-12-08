@@ -1,3 +1,7 @@
+# DSAN ChatBot
+Team members: Aashika Padmanabhan, Nikita Pardeshi, Mitali Shah, Shazia Sulaiman
+## Introduction
+
 The current system at Georgetown DSAN program has to answer any question that prospective students and new admits have is a manual one. Students have the option to either find answers from the FAQ section or if their question is not covered in the FAQ , they can send questions via email and wait for the student ambassadors to answer them. This process is time consuming and on average takes 2-3 days. Time to get clarity impacts students' decision making especially when deadlines are close by. Our program could end up losing prospective students and also cause anxiety to new admits especially if they have questions that are time sensitive.
 
 
