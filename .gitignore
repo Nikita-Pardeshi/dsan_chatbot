@@ -1,3 +1,4 @@
-*.app.ipynb 
-*.chatgui.py
-*.Project_Proposal.pages
+dsan_chatbot/app.ipynb
+dsan_chatbot/chatgui.py
+
+dsan_chatbot/Project Proposal.pages
